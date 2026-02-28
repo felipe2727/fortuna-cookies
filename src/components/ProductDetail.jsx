@@ -41,7 +41,7 @@ const ProductDetail = () => {
                                 </span>
                             </div>
                             <h1 className="text-5xl md:text-7xl font-display font-bold leading-[0.9] tracking-tighter uppercase text-white">
-                                The <br /><span className="text-transparent" style={{ WebkitTextStroke: '1px currentColor' }}>Ritual</span>
+                                THE <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>COLLECTION</span>
                             </h1>
                             <p className="text-lg md:text-xl font-light opacity-80 leading-relaxed max-w-md font-sans text-gray-300">
                                 Guidance, neatly packaged. A monthly supply of wisdom and artisanal flavor, designed to align your chakras and your palate.

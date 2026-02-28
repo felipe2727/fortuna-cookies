@@ -1,9 +1,18 @@
 import React from 'react';
+import WaitlistButton from './WaitlistButton';
 
 const Ingredients = () => {
     return (
-        <section className="bg-background-dark text-gray-100 font-sans antialiased transition-colors duration-300">
-            <main className="min-h-screen p-6 md:p-12 lg:p-20 max-w-7xl mx-auto">
+        <section className="bg-[#0a0a0a] text-gray-100 font-sans antialiased w-full w-full">
+            <main className="p-6 md:p-12 lg:p-20 max-w-7xl mx-auto w-full">
+                {/* Waitlist Call to Action */}
+                <div className="w-full flex flex-col items-center justify-center mb-32 mt-16 text-center space-y-10">
+                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-serif italic text-white leading-[1.1] tracking-tighter">
+                        Captivated? <br />
+                        <span className="text-gray-400 text-2xl md:text-3xl lg:text-4xl not-italic font-light tracking-tight mt-4 block">Secure your fate.</span>
+                    </h2>
+                    <WaitlistButton />
+                </div>
 
                 {/* Header */}
                 <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-gray-800 pb-8">

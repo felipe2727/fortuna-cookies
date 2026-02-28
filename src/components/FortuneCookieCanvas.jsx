@@ -68,23 +68,14 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
             const imageToDraw = imagesRef.current[frameIndex];
 
             if (imageToDraw) {
-                // To position the cookie strictly on the right side on desktop, 
-                // we alter the draw coordinates.
-                const isDesktop = window.innerWidth >= 768; // basic md breakpoint
-
                 // We want the image to fill its intended space
                 const scale = Math.max(window.innerWidth / imageToDraw.width, window.innerHeight / imageToDraw.height);
                 const drawWidth = imageToDraw.width * scale;
                 const drawHeight = imageToDraw.height * scale;
 
-                // Default: center
-                let xOffset = (window.innerWidth - drawWidth) / 2;
+                // Center the image consistently
+                const xOffset = (window.innerWidth - drawWidth) / 2;
                 const yOffset = (window.innerHeight - drawHeight) / 2;
-
-                if (isDesktop) {
-                    // Shift the image center to the right 25% of the screen
-                    xOffset += window.innerWidth * 0.25;
-                }
 
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
@@ -120,20 +111,15 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
                     </div>
                 </div>
             )}
-            {/* The canvas sits behind everything. Mask it so the grainy dark grey softly fades into the black background */}
+            {/* The canvas sits behind everything. Mask the very top and very bottom so it fades seamlessly */}
             <canvas
                 ref={canvasRef}
                 className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                 style={{
-                    WebkitMaskImage: 'radial-gradient(circle at center right, black 30%, transparent 90%)',
-                    maskImage: 'radial-gradient(circle at center right, black 30%, transparent 90%)'
+                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)'
                 }}
             />
-
-            {/* Overlay gradient to ensure text readability on the left */}
-            {/* Smooth transition from solid black on the left to transparent over the cookie */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none hidden md:block" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none md:hidden" />
         </div>
     );
 };

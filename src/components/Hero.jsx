@@ -45,14 +45,6 @@ const Hero = () => {
                         </p>
                     </div>
 
-                    <div className="pt-8 flex flex-col sm:flex-row gap-4 justify-center w-full animate-[fadeInUp_1s_ease-out_forwards]" style={{ animationDelay: '0.4s', opacity: 0 }}>
-                        <a className="inline-flex justify-center items-center px-10 py-5 bg-white text-black hover:bg-transparent hover:text-white border border-white transition-all duration-300 text-sm font-bold tracking-widest uppercase min-w-[200px]" href="#shop">
-                            Shop Now
-                        </a>
-                        <a className="inline-flex justify-center items-center px-10 py-5 bg-transparent text-white border border-gray-700 hover:border-white transition-all duration-300 text-sm font-bold tracking-widest uppercase min-w-[200px]" href="#ritual">
-                            Explore
-                        </a>
-                    </div>
                 </div>
 
                 {/* Scroll Indicator */}
