@@ -3,16 +3,16 @@ import { ArrowRight } from 'lucide-react';
 
 const WaitlistButton = () => {
   return (
-    <form className="flex w-full max-w-lg mx-auto pointer-events-auto" onSubmit={(e) => e.preventDefault()}>
+    <form className="flex flex-col sm:flex-row w-full max-w-lg mx-auto pointer-events-auto" onSubmit={(e) => e.preventDefault()}>
       <input
         type="email"
         placeholder="Enter your email for early access"
         required
-        className="flex-grow bg-transparent border border-white/20 border-r-0 text-white placeholder-gray-500 px-6 py-4 text-sm font-sans focus:outline-none focus:border-white focus:border-r transition-colors duration-300 min-w-0"
+        className="flex-grow bg-transparent border border-white/20 sm:border-r-0 border-b-0 sm:border-b text-white placeholder-gray-500 px-6 py-4 text-sm font-sans focus:outline-none focus:border-white focus:border-r transition-colors duration-300 min-w-0"
       />
       <button
         type="submit"
-        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-black font-sans text-sm font-bold tracking-widest uppercase overflow-hidden whitespace-nowrap shrink-0"
+        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-black font-sans text-sm font-bold tracking-widest uppercase overflow-hidden whitespace-nowrap shrink-0 border border-white"
       >
         <span className="relative z-10 transition-colors duration-300 group-hover:text-white">Join Waitlist</span>
         <ArrowRight className="w-4 h-4 relative z-10 transition-colors duration-300 group-hover:text-white group-hover:translate-x-1" />
