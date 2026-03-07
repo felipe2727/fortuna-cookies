@@ -24,26 +24,25 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
                 setImagesLoaded(1);
                 setFirstFrameLoaded(true);
 
-                // Silently decode the rest off the main thread
+                // Decode the rest off the main thread, CONCURRENTLY.
+                // Removing sequential "await" prevents a 191-request HTTP waterfall on production.
                 let loadedCount = 1;
                 for (let i = 1; i < TOTAL_FRAMES; i++) {
                     const img = new Image();
                     const frameIndexStr = i.toString().padStart(3, '0');
                     img.src = `/frames/frame_${frameIndexStr}_delay-0.041s.jpg`;
 
-                    try {
-                        await img.decode();
+                    img.decode().then(() => {
                         if (!isSetup) return;
                         imagesRef.current[i] = img;
-                    } catch (e) {
+                        loadedCount++;
+                        setImagesLoaded(loadedCount);
+                    }).catch((e) => {
                         console.warn(`Failed to decode frame i=${i}`);
                         if (!isSetup) return;
-                        if (i > 0) {
-                            imagesRef.current[i] = imagesRef.current[i - 1]; // Fallback safely
-                        }
-                    }
-                    loadedCount++;
-                    setImagesLoaded(loadedCount);
+                        loadedCount++;
+                        setImagesLoaded(loadedCount); // Keep progress bar moving even on failure
+                    });
                 }
             } catch (e) {
                 console.error("Critical failure loading first frame", e);
@@ -97,8 +96,14 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
 
             // 3. Decoupled Render Loop: Only draw if the target frame mathematically changed
             if (frameIndex !== lastRenderedFrame) {
-                // Fallback safely to nearest loaded image or 0th frame
-                const imageToDraw = imagesRef.current[frameIndex] || imagesRef.current[0];
+                // Find nearest loaded image looking backwards to prevent janky snaps to frame zero
+                let imageToDraw = null;
+                for (let i = frameIndex; i >= 0; i--) {
+                    if (imagesRef.current[i]) {
+                        imageToDraw = imagesRef.current[i];
+                        break;
+                    }
+                }
 
                 if (imageToDraw) {
                     const { width, height } = cachedDimensions;
