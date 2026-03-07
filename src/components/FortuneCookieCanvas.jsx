@@ -6,6 +6,7 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
     const canvasRef = useRef(null);
     const imagesRef = useRef([]);
     const [imagesLoaded, setImagesLoaded] = useState(0);
+    const [firstFrameLoaded, setFirstFrameLoaded] = useState(false);
 
     // 1. Instant First Frame & 2. Async Off-Thread Decoding
     useEffect(() => {
@@ -21,6 +22,7 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
                 if (!isSetup) return;
                 imagesRef.current[0] = firstImg;
                 setImagesLoaded(1);
+                setFirstFrameLoaded(true);
 
                 // Silently decode the rest off the main thread
                 let loadedCount = 1;
@@ -55,7 +57,7 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
     // Handle Scroll and Draw
     useEffect(() => {
         // Only require the FIRST frame to be loaded to start rendering immediately
-        if (imagesLoaded < 1) return;
+        if (!firstFrameLoaded) return;
 
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d', { alpha: false }); // Optimization for opaque canvas
@@ -127,7 +129,7 @@ const FortuneCookieCanvas = ({ onProgressUpdate }) => {
             cancelAnimationFrame(animationFrameId);
             window.removeEventListener('resize', updateDimensions);
         };
-    }, [imagesLoaded, onProgressUpdate]);
+    }, [firstFrameLoaded, onProgressUpdate]);
 
     return (
         <div className="absolute inset-0 w-full h-full bg-black overflow-hidden flex flex-col justify-center items-center pointer-events-none">
